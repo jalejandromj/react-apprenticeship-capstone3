@@ -20,7 +20,8 @@
     "stylelint:fix": "stylelint src/*.css src/**/*.css --fix",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "verify": "npm run lint && npm run stylelint"
+    "verify": "npm run lint && npm run stylelint",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -43,6 +44,7 @@
   "devDependencies": {
     "eslint": "^8.7.0",
     "eslint-plugin-react": "^7.28.0",
+    "husky": "^7.0.4",
     "prettier": "2.5.1",
     "stylelint": "^14.3.0",
     "stylelint-config-standard": "^24.0.0"
