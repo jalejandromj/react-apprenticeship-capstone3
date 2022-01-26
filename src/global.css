@@ -1,3 +1,28 @@
+html {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: rgba(0 0 0 0%);
+}
+
+:root {
+  --wine: #8c0034;
+  --discreet-white: 255 245 247;
+  --dark-blue: 47 70 102;
+  --light-purple: #623268;
+  --dark-purple: #443f6d;
+  --indigo-blue: 18, 166, 154;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   font-family:
@@ -24,4 +49,13 @@ code {
     Consolas,
     "Courier New",
     monospace;
+}
+
+section {
+  height: 100%;
+  width: 100%;
+}
+
+figure {
+  margin: 0;
 }
