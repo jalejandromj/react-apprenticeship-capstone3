@@ -1,5 +1,7 @@
 coverage
 build
+src/utils/firebase-config.js
+src/components/App/App.component.jsx
 .eslintrc.js
 commitlint.config.js
 *.test.js

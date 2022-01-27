@@ -9,11 +9,11 @@ html {
 }
 
 :root {
-  --wine: #8c0034;
+  --wine: 140 0 52;
   --discreet-white: 255 245 247;
   --dark-blue: 47 70 102;
-  --light-purple: #623268;
-  --dark-purple: #443f6d;
+  --light-purple: 98 50 104;
+  --dark-purple: 68 63 109;
   --indigo-blue: 18, 166, 154;
 }
 
