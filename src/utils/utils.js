@@ -2,7 +2,7 @@ const firebaseErrorUserMssg = (error) => {
 	if(error.code === 'auth/wrong-password') {
 		return('Please check the Password');
 	}else if(error.code === 'auth/user-not-found') {
-		return('Please check the Email');
+		return('No account registered with that email.');
 	}else if(error.code === 'auth/email-already-in-use') {
 		return('An account with that email already exists.');
 	}else if(error.code === 'auth/weak-password') {

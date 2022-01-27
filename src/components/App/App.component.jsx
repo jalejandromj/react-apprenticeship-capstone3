@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 
 import { app } from '../../utils/firebase-config';
 
 import GeneralContextProvider from '../../state/GeneralContext';
 import Layout from '../Layout';
 import AuthPage from '../../pages/AuthPage';
+import NotesPage from '../../pages/Notes';
 import PrivateRoute from '../../components/PrivateRoute';
 
 function App() {
@@ -14,11 +15,11 @@ function App() {
       <GeneralContextProvider>
         <Layout>
           <Routes>
-            <Route exact path="/" element={<div>App</div>}></Route>
+            <Route exact path="/" element={<Navigate to="/notes" />}></Route>
             <Route exact path="/register" element={<AuthPage action={"register"}/>}></Route>
             <Route exact path="/login" element={<AuthPage action={"login"}/>}></Route>
             <Route exact path='/notes' element={<PrivateRoute/>}>
-                  <Route exact path='/notes' element={<div>Notes</div>}/>
+                  <Route exact path='/notes' element={<NotesPage />}/>
             </Route>
           </Routes>
         </Layout >
