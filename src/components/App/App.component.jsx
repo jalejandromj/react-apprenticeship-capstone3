@@ -6,6 +6,7 @@ import { app } from '../../utils/firebase-config';
 import GeneralContextProvider from '../../state/GeneralContext';
 import Layout from '../Layout';
 import AuthPage from '../../pages/AuthPage';
+import PrivateRoute from '../../components/PrivateRoute';
 
 function App() {
   return (
@@ -14,15 +15,11 @@ function App() {
         <Layout>
           <Routes>
             <Route exact path="/" element={<div>App</div>}></Route>
-          </Routes>
-          <Routes>
             <Route exact path="/register" element={<AuthPage action={"register"}/>}></Route>
-          </Routes>
-          <Routes>
             <Route exact path="/login" element={<AuthPage action={"login"}/>}></Route>
-          </Routes>
-          <Routes>
-            <Route exact path="/notes" element={<div>Notes</div>}></Route>
+            <Route exact path='/notes' element={<PrivateRoute/>}>
+                  <Route exact path='/notes' element={<div>Notes</div>}/>
+            </Route>
           </Routes>
         </Layout >
       </GeneralContextProvider>
