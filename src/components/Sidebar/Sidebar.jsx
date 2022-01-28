@@ -14,7 +14,14 @@ function Sidebar() {
         <Col
             sm={12}
           >
-          <Button >Home</Button>
+          <Button style={{width: "100%"}}>Home</Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col
+            sm={12}
+          >
+          <Button style={{width: "100%"}}>Archive</Button>
         </Col>
       </Row>
     </SidebarNav>

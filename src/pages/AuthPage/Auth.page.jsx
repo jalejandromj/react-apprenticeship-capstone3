@@ -25,6 +25,7 @@ function AuthPage(props) {
       .then((response) => {
         console.log(response);
         sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
+        sessionStorage.setItem('uid', response._tokenResponse.localId);
         navigate('/notes');
       })
       .catch(function (error) {
@@ -37,6 +38,7 @@ function AuthPage(props) {
       .then((response) => {
         console.log(response);
         sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
+        sessionStorage.setItem('uid', response._tokenResponse.localId);
         navigate('/notes');
       })
       .catch(function (error) {
@@ -51,7 +53,7 @@ function AuthPage(props) {
     return(
       <Row style={{position: "relative"}}>
         <Col md={2} lg={2} xl={4}/>
-        <Col md={8} lg={8} xl={4} alignX>
+        <Col md={8} lg={8} xl={4} centerX>
           <p style={{color: "red"}}>{error}</p>
         </Col>
       </Row>
@@ -80,26 +82,26 @@ function AuthPage(props) {
     <section className="login-page">
       <CenteredPanel backgroundColor="rgb(var(--dark-purple))">
         <Row>
-          <Col md={12} lg={12} alignX><h1 style={{color:"rgb(var(--discreet-white))"}}>{props.action === 'register' ? "Register" : "Login"} </h1></Col>
+          <Col md={12} lg={12} centerX><h1 style={{color:"rgb(var(--discreet-white))"}}>{props.action === 'register' ? "Register" : "Login"} </h1></Col>
         </Row>
         <Row>
-          <Col md={12} lg={12} alignX><h4 style={{color:"rgb(var(--discreet-white))", margin: 0}}>Please, enter your credentials: </h4></Col>
+          <Col md={12} lg={12} centerX><h4 style={{color:"rgb(var(--discreet-white))", margin: 0}}>Please, enter your credentials: </h4></Col>
         </Row>
         <form onSubmit={handleAuthSubmit}>
           <Row>
             <Col md={3} lg={3} xl={4}/>
-            <Col md={6} lg={6} xl={4} alignX>
-              <Input label="Email" type="email" required/>
+            <Col md={6} lg={6} xl={4} centerX>
+              <Input label="Email" name="email" type="email" required/>
             </Col>
           </Row>
           <Row>
             <Col md={3} lg={3} xl={4}/>
-            <Col md={6} lg={6} xl={4} alignX>
-              <Input label="Password" type="password" required/>
+            <Col md={6} lg={6} xl={4} centerX>
+              <Input dark label="Password" name="password" type="password" required/>
             </Col>
           </Row>
           <Row style={{position: "relative"}}>
-            <Col md={12} lg={12} alignX>
+            <Col md={12} lg={12} centerX>
               <Button style={{backgroundColor:"rgb(var(--wine))"}} type="submit">Submit</Button>
             </Col>
           </Row>
@@ -108,7 +110,7 @@ function AuthPage(props) {
           }
         </form>
         <Row>
-          <Col md={12} lg={12} alignX>
+          <Col md={12} lg={12} centerX>
             <RenderAuthOptionsBtn />
           </Col>
         </Row>

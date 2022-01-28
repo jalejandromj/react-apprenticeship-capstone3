@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
 const ButtonElement = styled.button`
+  display: inline-block;
   position: relative;
-  width: auto;
+  align-content: center;
+  width: fit-content;
   background: ${props => props.blue ? "rgb(var(--dark-blue))" : "transparent"};
   border-style: none;
   box-shadow: 0 2px 5px 0 rgb(0 0 0 / 55%);

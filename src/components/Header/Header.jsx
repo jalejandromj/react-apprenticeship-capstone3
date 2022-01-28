@@ -40,6 +40,7 @@ function Header() {
         <Col
           md={2} lg={2} xl={2}
           style={{ alignItems: 'center', justifyContent: 'center' }}
+          centerX
         >
           {authToken ?
             <Button style={{backgroundColor:"rgb(var(--indigo-blue))"}} onClick={() => handleLogout()}>Log out</Button>

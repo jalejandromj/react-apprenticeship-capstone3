@@ -4,8 +4,8 @@ import { MEDIA_QUERIES } from '../../utils/constants';
 
 const ColDiv = styled.div`
   display: flex;
-  ${props => props.alignX && "align-content: center;"}
-  flex-flow: column wrap;
+  ${props => props.centerX && "align-items: center;"}
+  flex-flow: column;
   flex-basis: 100%;
   flex: 1 0 100%;
   padding: 10px 10px;
