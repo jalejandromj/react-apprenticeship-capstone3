@@ -65,7 +65,7 @@ function NotesPage() {
     if(notes){//There are EXISTING notes...
       const unarchivedNotes = notes.filter(note => note.archived === false); //Get all notes NOT archived...
 
-      if(unarchivedNotes.length > 0){ //Are those notes unarchived...?
+      if(unarchivedNotes.length > 0){ //Are those notes unarchived...should I display them?
         const renderedNotes = notes.map((note, index) => {
           if(!note.archived){
             return(
@@ -98,7 +98,7 @@ function NotesPage() {
             </>
           );
       }
-    }else{ //If there are no archived or unarchived notes...
+    }else{ //If not, just say there are no ANY NOTES...
       return(
         <>
           <Col md={3} lg={3}></Col>
