@@ -28,6 +28,8 @@ const ButtonElement = styled.button`
     top: 20%;
     height: 60%;
     width: 60%;
+  }
+  & > i.i-archive:before {
     background: url(${ArchiveImg}) no-repeat;
     background-size: contain;
   }

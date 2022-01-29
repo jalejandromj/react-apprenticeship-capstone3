@@ -7,6 +7,7 @@ import GeneralContextProvider from '../../state/GeneralContext';
 import Layout from '../Layout';
 import AuthPage from '../../pages/AuthPage';
 import NotesPage from '../../pages/Notes';
+import ArchivedNotesPage from '../../pages/ArchivedNotes';
 import PrivateRoute from '../../components/PrivateRoute';
 
 function App() {
@@ -19,7 +20,10 @@ function App() {
             <Route exact path="/register" element={<AuthPage action={"register"}/>}></Route>
             <Route exact path="/login" element={<AuthPage action={"login"}/>}></Route>
             <Route exact path='/notes' element={<PrivateRoute/>}>
-                  <Route exact path='/notes' element={<NotesPage />}/>
+                <Route exact path='/notes' element={<NotesPage />}/>
+            </Route>
+            <Route exact path='/notes/archived' element={<PrivateRoute/>}>
+                <Route exact path='/notes/archived' element={<ArchivedNotesPage />}/>
             </Route>
           </Routes>
         </Layout >

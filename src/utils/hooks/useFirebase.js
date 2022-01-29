@@ -8,7 +8,7 @@ function useFirebase() {
     const dbRef = ref(database);
 
     async function getFirebaseNotes() {
-        let notes = [];
+        let notes = null;
         await get(child(dbRef, `users/${uid}`))
         .then((snapshot) => {
              if (snapshot.exists()) {
@@ -24,6 +24,8 @@ function useFirebase() {
     }
 
     async function insertFirebaseNotes(target, notes) {
+        if(!notes) //If it is null, the first note to be created
+            notes = [];
         const newNote = {title: target.title.value, note: target.note.value, color: target.color.value, archived: false};
         notes.push(newNote);
 
@@ -37,12 +39,12 @@ function useFirebase() {
         });
     }
 
-    async function updateFirebaseNotes(index, note) {
+    async function updateFirebaseNotes(index, note, isArchived) {
         const noteData = {
             title: note.title,
             note: note.note,
             color: note.color,
-            archived: true
+            archived: isArchived,
         };
         const updates = {};
         updates['/users/' + uid + '/notes/' + index] = noteData;

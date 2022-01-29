@@ -39,7 +39,7 @@ function Header() {
         </Col>
         <Col
           md={2} lg={2} xl={2}
-          style={{ alignItems: 'center', justifyContent: 'center' }}
+          style={{ alignItems: 'end', justifyContent: 'center' }}
           centerX
         >
           {authToken ?

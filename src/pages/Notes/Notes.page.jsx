@@ -9,7 +9,7 @@ import Row from "../../components/Row";
 import { NoteEditorContainer, NotePanel } from "./Notes.page.styles";
 
 function NotesPage() {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(null);
   const { getFirebaseNotes, insertFirebaseNotes, updateFirebaseNotes } = useFirebase();
 
   async function getNotes() {
@@ -23,7 +23,7 @@ function NotesPage() {
   }
 
   async function updateNote(index, note) {
-    await updateFirebaseNotes(index, note);
+    await updateFirebaseNotes(index, note, true);
     getNotes();
   }
 
@@ -44,11 +44,11 @@ function NotesPage() {
           <Row>
             <Col md={3} lg={3}>
               <select name="color" id="color">
+                <option value="rgb(var(--indigo-blue))">Aqua</option>
                 <option value="black">Black</option>
-                <option value="rgb(var(--wine))">Wine</option>
                 <option value="rgb(var(--dark-blue))">Blue</option>
                 <option value="rgb(var(--dark-purple))">Purple</option>
-                <option value="rgb(var(--indigo-blue))">Aqua</option>
+                <option value="rgb(var(--wine))">Wine</option>
               </select>
             </Col>
             <Col md={4} lg={5}/>
@@ -62,30 +62,43 @@ function NotesPage() {
   }
 
   const RenderNotes = () => {
-    if(notes.length > 0){//If there are any notes, render and show them...
-      const renderedNotes = notes.map((note, index) => {
-        if(!note.archived){
+    if(notes){//There are EXISTING notes...
+      const unarchivedNotes = notes.filter(note => note.archived === false); //Get all notes NOT archived...
+
+      if(unarchivedNotes.length > 0){ //Are those notes unarchived...?
+        const renderedNotes = notes.map((note, index) => {
+          if(!note.archived){
+            return(
+              <NotePanel key={`${note.title}_${index}`} md={4} lg={3}>
+                <div style={{backgroundColor: note.color}}>
+                  <Row >
+                    <Col md={9} lg={9}><h4 style={{margin: 0}}>{note.title}</h4></Col>
+                    <Col md={3} lg={3} style={{alignItems: "left"}}>
+                      <RoundButton onClick={() => updateNote(index, note)}>
+                        <i className="i-archive"></i>
+                      </RoundButton>
+                    </Col>
+                  </Row>
+                  <Row >
+                    <Col md={12} lg={12}><p>{note.note}</p></Col>
+                  </Row>
+                </div>
+              </NotePanel>
+            );
+          }
+        })
+        return(renderedNotes);
+      }else{
           return(
-            <NotePanel key={note.title} md={4} lg={3}>
-              <div style={{backgroundColor: note.color}}>
-                <Row >
-                  <Col md={9} lg={9}><h4 style={{margin: 0}}>{note.title}</h4></Col>
-                  <Col md={3} lg={3} style={{alignItems: "left"}}>
-                    <RoundButton onClick={() => updateNote(index, note)}>
-                      <i ></i>
-                    </RoundButton>
-                  </Col>
-                </Row>
-                <Row >
-                  <Col md={12} lg={12}><p>{note.note}</p></Col>
-                </Row>
-              </div>
-            </NotePanel>
+            <>
+              <Col md={3} lg={3}></Col>
+              <Col md={6} lg={6} style={{height: "100%"}} centerX centerY>
+                <p>Apparently all your notes are archived....</p>
+              </Col>
+            </>
           );
-        }
-      });
-      return(renderedNotes);
-    }else{ //If not, custom No notes message...
+      }
+    }else{ //If there are no archived or unarchived notes...
       return(
         <>
           <Col md={3} lg={3}></Col>
@@ -103,7 +116,7 @@ function NotesPage() {
   }
 
   useEffect(() => {
-    if(notes.length === 0)
+    if(!notes)
       getNotes();
   }, [notes]);
 
