@@ -1,7 +1,6 @@
 import React, {useEffect, useState } from 'react';
 
-import { getDatabase, ref, set, child, get, update } from "firebase/database";
-
+import useFirebase from '../../utils/hooks/useFirebase';
 import Button from "../../components/Button";
 import RoundButton from "../../components/RoundButton";
 import Col from "../../components/Col";
@@ -10,55 +9,22 @@ import Row from "../../components/Row";
 import { NoteEditorContainer, NotePanel } from "./Notes.page.styles";
 
 function NotesPage() {
-  const uid = sessionStorage.getItem('uid');
   const [notes, setNotes] = useState([]);
+  const { getFirebaseNotes, insertFirebaseNotes, updateFirebaseNotes } = useFirebase();
 
-  const getFbNotes = () => {
-    const dbRef = ref(getDatabase());
-    get(child(dbRef, `users/${uid}`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val().notes);
-        setNotes(snapshot.val().notes);
-      } else {
-        console.log("No data available");
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
+  async function getNotes() {
+    const newNotes = await getFirebaseNotes();
+    setNotes(newNotes);
   }
 
-  const insertFbNotes = (e) => {
-    const database = getDatabase();
-    const newNote = {title: e.target.title.value, note: e.target.note.value, color: e.target.color.value, archived: false};
-    notes.push(newNote);
-
-    set(ref(database, 'users/' + uid), {
-      notes: notes,
-    })
-    .then(() => {
-      getFbNotes();
-    }).catch((error) => {
-      console.error(error);
-    });
+  async function insertNotes(e) {
+    await insertFirebaseNotes(e.target, notes);
+    getNotes();
   }
 
-  const updateFbNote = (index, note) => {
-    const db = getDatabase();
-    const noteData = {
-      title: note.title,
-      note: note.note,
-      color: note.color,
-      archived: true
-    };
-    const updates = {};
-    updates['/users/' + uid + '/notes/' + index] = noteData;
-
-    update(ref(db), updates)
-    .then(() => {
-      getFbNotes();
-    }).catch((error) => {
-      console.error(error);
-    });
+  async function updateNote(index, note) {
+    await updateFirebaseNotes(index, note);
+    getNotes();
   }
 
   const RenderNoteCreator = () => {
@@ -105,7 +71,7 @@ function NotesPage() {
                 <Row >
                   <Col md={9} lg={9}><h4 style={{margin: 0}}>{note.title}</h4></Col>
                   <Col md={3} lg={3} style={{alignItems: "left"}}>
-                    <RoundButton onClick={() => updateFbNote(index, note)}>
+                    <RoundButton onClick={() => updateNote(index, note)}>
                       <i ></i>
                     </RoundButton>
                   </Col>
@@ -133,12 +99,12 @@ function NotesPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    insertFbNotes(e);
+    insertNotes(e);
   }
 
   useEffect(() => {
     if(notes.length === 0)
-      getFbNotes();
+      getNotes();
   }, [notes]);
 
   return (
