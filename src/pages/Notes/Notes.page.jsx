@@ -45,6 +45,7 @@ function NotesPage() {
     setFilteredNotes(filteredNotesArray);
   }
 
+  //Pending to migrate to own component...
   const RenderNotes = () => {
     let notesToRender;
     if(filteredNotes === null || filter === ""){ //If there is no filter nor filtered notes...

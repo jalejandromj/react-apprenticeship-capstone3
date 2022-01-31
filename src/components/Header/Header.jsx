@@ -25,20 +25,20 @@ function Header() {
   return (
     <HeaderNav id="header">
       <Row>
-        <Col md={1} lg={1} xl={2} style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Col md={1} style={{ alignItems: 'center', justifyContent: 'center' }}>
           <figure onClick={() => setDisplaySidebar(!displaySidebar)} style={{cursor: "pointer"}}><MenuSVG style={{fill: "white", height: "100%"}}/></figure>
         </Col>
-        <Col md={7} lg={7} xl={2} style={{ justifyContent: 'center' }}>
+        <Col md={7} style={{ justifyContent: 'center' }}>
           
         </Col>
         <Col
-          md={2} lg={2} xl={2}
+          md={2}
           style={{ alignItems: 'center', justifyContent: 'center' }}
         >
           
         </Col>
         <Col
-          md={2} lg={2} xl={2}
+          md={2}
           style={{ alignItems: 'end', justifyContent: 'center' }}
           centerX
         >
