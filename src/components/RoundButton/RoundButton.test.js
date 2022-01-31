@@ -3,22 +3,31 @@ import RoundButton from './RoundButton.component';
 
 it('renders Button without crashing', () => {
   render(
-    <Button/>
+    <RoundButton/>
   );
 });
 
 it('renders children without crashing', () => {
   render(
-    <Button>Test children</Button>
+    <RoundButton>Test children</RoundButton>
   );
 
   const child = screen.getByText(/Test children/i);
   expect(child).toBeInTheDocument();
 });
 
+it('indeed is round', () => {
+  render(
+    <RoundButton>Round style</RoundButton>
+  );
+
+  const styleBtn = screen.getByText(/Round style/i);
+  expect(styleBtn).toHaveStyle("border-radius: 50%");
+});
+
 it('inherits styles prop correctly', () => {
   render(
-    <Button style={{color: "red"}}>Test style</Button>
+    <RoundButton style={{color: "red"}}>Test style</RoundButton>
   );
 
   const styleBtn = screen.getByText(/Test style/i);
@@ -27,7 +36,7 @@ it('inherits styles prop correctly', () => {
 
 it('should handle the props click event', () => {
   window.alert = jest.fn();
-  render(<Button onClick={() => alert('clicked!')}>Test onClick</Button>);
+  render(<RoundButton onClick={() => alert('clicked!')}>Test onClick</RoundButton>);
 
   const button = screen.getByText(/Test onClick/i);
   fireEvent.click(button);

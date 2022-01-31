@@ -3,7 +3,7 @@ import React from 'react';
 import Col from "../../components/Col";
 import Row from "../../components/Row";
 
-function CenteredPanel({children, backgroundColor}) {
+function CenteredPanel({backgroundColor, children}) {
 
   return (
     <Row style={{height: "100%",

@@ -36,7 +36,7 @@ function ArchivedNotesPage() {
                     <Col md={9} lg={9}><h4 style={{margin: 0}}>{note.title}</h4></Col>
                     <Col md={3} lg={3} style={{alignItems: "left"}}>
                       <RoundButton onClick={() => updateNote(index, note)}>
-                        <i >{index}</i>
+                        <i alt="unarchive" className="i-unarchive">{index}</i>
                       </RoundButton>
                     </Col>
                   </Row>

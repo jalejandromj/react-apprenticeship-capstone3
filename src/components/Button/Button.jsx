@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ButtonElement } from './Button.styles';
 
-function Button({children, style, blue, submit, onClick}) {
+function Button({blue, submit, onClick, style, children}) {
 
   return (
     <ButtonElement style={style} blue={blue} type={submit && "submit"} onClick={onClick}>{children}</ButtonElement>

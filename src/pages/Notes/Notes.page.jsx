@@ -1,15 +1,17 @@
 import React, {useEffect, useState } from 'react';
 
 import useFirebase from '../../utils/hooks/useFirebase';
-import Button from "../../components/Button";
 import RoundButton from "../../components/RoundButton";
 import Col from "../../components/Col";
 import Input from "../../components/Input";
+import { RenderNoteCreator } from "./";
 import Row from "../../components/Row";
-import { NoteEditorContainer, NotePanel } from "./Notes.page.styles";
+import { NotePanel } from "./Notes.page.styles";
 
 function NotesPage() {
   const [notes, setNotes] = useState(null);
+  const [filteredNotes, setFilteredNotes] = useState(null);
+  const [filter, setFilter] = useState(null);
   const { getFirebaseNotes, insertFirebaseNotes, updateFirebaseNotes } = useFirebase();
 
   async function getNotes() {
@@ -22,65 +24,59 @@ function NotesPage() {
     getNotes();
   }
 
-  async function updateNote(index, note) {
-    await updateFirebaseNotes(index, note, true);
+  async function updateNote(index, note, toArchive) {
+    await updateFirebaseNotes(index, note, toArchive);
     getNotes();
+    setFilteredNotes(null);
   }
 
-  const RenderNoteCreator = () => {
-    return(
-      <NoteEditorContainer md={6} lg={6} style={{height: "100%"}} centerX>
-        <form onSubmit={handleSubmit} style={{width: "100%"}}>
-          <Row>
-            <Col md={12} lg={12}>
-              <Input noLabel name="title" type="text" placeholder="Title" theme="dark" required/>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={12} lg={12}>
-              <Input noLabel name="note" type="text" placeholder="Write your note here..." theme="dark" required/>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={3} lg={3}>
-              <select name="color" id="color">
-                <option value="rgb(var(--indigo-blue))">Aqua</option>
-                <option value="black">Black</option>
-                <option value="rgb(var(--dark-blue))">Blue</option>
-                <option value="rgb(var(--dark-purple))">Purple</option>
-                <option value="rgb(var(--wine))">Wine</option>
-              </select>
-            </Col>
-            <Col md={4} lg={5}/>
-            <Col md={5} lg={4} style={{alignItems: "end"}}>
-              <Button style={{backgroundColor: "rgb(var(--wine))"}} type="submit">Create note</Button> 
-            </Col>
-          </Row>
-        </form>
-      </NoteEditorContainer>
-    );
+  const filterNotes = (value) => {
+    setFilter(value);
+    let filteredNotesArray = [];
+    // Not the best approach, but as I am managing all the logic based on the initial "unique" firebase notes array index...
+    notes.map((filterNote) => {
+      let result = filterNote.note.toLowerCase().includes(value.toLowerCase());
+      if(result){
+        filteredNotesArray.push(filterNote);
+      }else{
+        filteredNotesArray.push({});
+      }
+    })
+    setFilteredNotes(filteredNotesArray);
   }
 
   const RenderNotes = () => {
-    if(notes){//There are EXISTING notes...
-      const unarchivedNotes = notes.filter(note => note.archived === false); //Get all notes NOT archived...
+    let notesToRender;
+    if(filteredNotes === null || filter === ""){ //If there is no filter nor filtered notes...
+      notesToRender = notes;
+    }else{// If there is indeed a filter, use the filtered notes instead of all notes...
+      notesToRender = filteredNotes;
+    }
+    
+    if(notesToRender){//There are EXISTING notes...
+      const unarchivedNotes = notesToRender.filter(note => note.archived === false); //Try to get all notes NOT archived...
 
       if(unarchivedNotes.length > 0){ //Are those notes unarchived...should I display them?
-        const renderedNotes = notes.map((note, index) => {
-          if(!note.archived){
+        const renderedNotes = notesToRender.map((note, index) => {
+          if(!note.archived && note.title){
             return(
               <NotePanel key={`${note.title}_${index}`} md={4} lg={3}>
                 <div style={{backgroundColor: note.color}}>
                   <Row >
-                    <Col md={9} lg={9}><h4 style={{margin: 0}}>{note.title}</h4></Col>
-                    <Col md={3} lg={3} style={{alignItems: "left"}}>
-                      <RoundButton onClick={() => updateNote(index, note)}>
+                    <Col md={7}><h4 style={{margin: 0}}>{note.title}</h4></Col>
+                    <Col md={2} style={{alignItems: "right"}}>
+                      <RoundButton onClick={() => updateNote(index, note, true)}>
                         <i className="i-archive"></i>
+                      </RoundButton>
+                    </Col>
+                    <Col md={2} style={{alignItems: "left"}}>
+                      <RoundButton onClick={() => updateNote(index, note, false)}>
+                        <i className="i-edit"></i>
                       </RoundButton>
                     </Col>
                   </Row>
                   <Row >
-                    <Col md={12} lg={12}><p>{note.note}</p></Col>
+                    <Col md={12}><p>{note.note}</p></Col>
                   </Row>
                 </div>
               </NotePanel>
@@ -91,9 +87,13 @@ function NotesPage() {
       }else{
           return(
             <>
-              <Col md={3} lg={3}></Col>
-              <Col md={6} lg={6} style={{height: "100%"}} centerX centerY>
-                <p>Apparently all your notes are archived....</p>
+              <Col md={3} ></Col>
+              <Col md={6} style={{height: "100%"}} centerX centerY>
+                {filter ?
+                  <p>There are no match results. Try another search.</p>
+                :
+                  <p>Apparently all your notes are archived....</p>
+                }
               </Col>
             </>
           );
@@ -101,18 +101,13 @@ function NotesPage() {
     }else{ //If not, just say there are no ANY NOTES...
       return(
         <>
-          <Col md={3} lg={3}></Col>
-          <Col md={6} lg={6} style={{height: "100%"}} centerX centerY>
+          <Col md={3}></Col>
+          <Col md={6} style={{height: "100%"}} centerX centerY>
             <p>Oh no...there are no notes; please create a new one using the creation note input.</p>
           </Col>
         </>
       );
     }
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    insertNotes(e);
   }
 
   useEffect(() => {
@@ -123,8 +118,14 @@ function NotesPage() {
   return (
     <section className="notes-page">
       <Row style={{height: "auto"}}>
-        <Col md={3} lg={3}/>
-        <RenderNoteCreator />
+        <Col md={3} />
+        <RenderNoteCreator insertNotes={insertNotes}/>
+      </Row>
+      <Row style={{height: "7%"}}>
+        <Col md={3} />
+        <Col md={6} >
+          <Input label="Search note" name="search" type="text" placeholder="Take dog to bath" theme="dark" onChange={(e) => filterNotes(e.target.value)} required/>
+        </Col>
       </Row>
       <Row style={{height: "70%", overflowY: "scroll", marginTop: "50px"}}>
         <RenderNotes />

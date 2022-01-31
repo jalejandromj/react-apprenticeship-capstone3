@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 import ArchiveImg from '../../assets/img/archive.png';
+import EditImg from '../../assets/img/edit.png';
+import UnarchiveImg from '../../assets/img/unarchive.png';
 
 const ButtonElement = styled.button`
   display: inline-block;
@@ -31,6 +33,14 @@ const ButtonElement = styled.button`
   }
   & > i.i-archive:before {
     background: url(${ArchiveImg}) no-repeat;
+    background-size: contain;
+  }
+  & > i.i-unarchive:before {
+    background: url(${UnarchiveImg}) no-repeat;
+    background-size: contain;
+  }
+  & > i.i-edit:before {
+    background: url(${EditImg}) no-repeat;
     background-size: contain;
   }
 `;

@@ -13,7 +13,7 @@ const NotePanel = styled(NoteEditorContainer)`
   border: none;
   box-shadow: none;
   height: 40%;
-  padding: 2.5% 1%;
+  padding: 1% 1%;
 
   & > div {
     border: 1px solid rgb(var(--wine));
