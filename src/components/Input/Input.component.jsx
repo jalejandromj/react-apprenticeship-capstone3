@@ -2,7 +2,7 @@ import React from 'react';
 
 import { InputElement } from './Input.styles';
 
-function Input({label, name, type, required, noLabel, placeholder, theme, onChange}) {
+function Input({label, name, type, required, noLabel, placeholder, theme, defaultValue, onChange}) {
 
   return (
     <>
@@ -12,6 +12,7 @@ function Input({label, name, type, required, noLabel, placeholder, theme, onChan
                     required={required ? true : false} 
                     placeholder={placeholder ? placeholder : null} 
                     theme={theme} 
+                    defaultValue={defaultValue ? defaultValue : undefined}
                     onChange={onChange}/>
     </>
   );

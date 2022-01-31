@@ -10,6 +10,7 @@ import { NotePanel } from "./Notes.page.styles";
 
 function NotesPage() {
   const [notes, setNotes] = useState(null);
+  const [editNote, setEditNote] = useState(null);
   const [filteredNotes, setFilteredNotes] = useState(null);
   const [filter, setFilter] = useState(null);
   const { getFirebaseNotes, insertFirebaseNotes, updateFirebaseNotes } = useFirebase();
@@ -19,8 +20,8 @@ function NotesPage() {
     setNotes(newNotes);
   }
 
-  async function insertNotes(e) {
-    await insertFirebaseNotes(e.target, notes);
+  async function insertNotes(target) {
+    await insertFirebaseNotes(target, notes);
     getNotes();
   }
 
@@ -28,21 +29,24 @@ function NotesPage() {
     await updateFirebaseNotes(index, note, toArchive);
     getNotes();
     setFilteredNotes(null);
+    setEditNote(null);
   }
 
   const filterNotes = (value) => {
     setFilter(value);
     let filteredNotesArray = [];
-    // Not the best approach, but as I am managing all the logic based on the initial "unique" firebase notes array index...
-    notes.map((filterNote) => {
-      let result = filterNote.note.toLowerCase().includes(value.toLowerCase());
-      if(result){
-        filteredNotesArray.push(filterNote);
-      }else{
-        filteredNotesArray.push({});
-      }
-    })
-    setFilteredNotes(filteredNotesArray);
+    if(notes){
+      // Not the best approach, but as I am managing all the logic based on the initial "unique" firebase notes array index...
+      notes.map((filterNote) => {
+        let result = filterNote.note.toLowerCase().includes(value.toLowerCase());
+        if(result){
+          filteredNotesArray.push(filterNote);
+        }else{
+          filteredNotesArray.push({});
+        }
+      })
+      setFilteredNotes(filteredNotesArray);
+    }
   }
 
   //Pending to migrate to own component...
@@ -61,24 +65,30 @@ function NotesPage() {
         const renderedNotes = notesToRender.map((note, index) => {
           if(!note.archived && note.title){
             return(
-              <NotePanel key={`${note.title}_${index}`} md={4} lg={3}>
-                <div style={{backgroundColor: note.color}}>
-                  <Row >
-                    <Col md={7}><h4 style={{margin: 0}}>{note.title}</h4></Col>
-                    <Col md={2} style={{alignItems: "right"}}>
-                      <RoundButton onClick={() => updateNote(index, note, true)}>
-                        <i className="i-archive"></i>
-                      </RoundButton>
-                    </Col>
-                    <Col md={2} style={{alignItems: "left"}}>
-                      <RoundButton onClick={() => updateNote(index, note, false)}>
-                        <i className="i-edit"></i>
-                      </RoundButton>
-                    </Col>
-                  </Row>
-                  <Row >
-                    <Col md={12}><p>{note.note}</p></Col>
-                  </Row>
+              <NotePanel className={editNote === index ? "edit-modal" : null} key={`${note.title}_${index}`} md={4} lg={3} onClick={() => alert('tes')}>
+                <div id={`note_${index}`} style={{backgroundColor: note.color}}>
+                  {(editNote === index) ?
+                    <RenderNoteCreator theme="light" action="edit" index={index} actionFunction={updateNote} note={note}/>
+                  :
+                  <>
+                    <Row >
+                      <Col md={6}><h4 style={{margin: 0}}>{note.title}</h4></Col>
+                      <Col md={2} style={{alignItems: "end"}}>
+                        <RoundButton onClick={() => updateNote(index, note, true)}>
+                          <i className="i-archive"></i>
+                        </RoundButton>
+                      </Col>
+                      <Col md={3} style={{alignItems: "end"}}>
+                        <RoundButton onClick={() => setEditNote(index)}>
+                          <i className="i-edit"></i>
+                        </RoundButton>
+                      </Col>
+                    </Row>
+                    <Row >
+                      <Col md={12}><p>{note.note}</p></Col>
+                    </Row>
+                  </>
+                  }
                 </div>
               </NotePanel>
             );
@@ -120,12 +130,12 @@ function NotesPage() {
     <section className="notes-page">
       <Row style={{height: "auto"}}>
         <Col md={3} />
-        <RenderNoteCreator insertNotes={insertNotes}/>
+        <RenderNoteCreator theme="dark" actionFunction={insertNotes} action="create"/>
       </Row>
       <Row style={{height: "7%"}}>
         <Col md={3} />
         <Col md={6} >
-          <Input label="Search note" name="search" type="text" placeholder="Take dog to bath" theme="dark" onChange={(e) => filterNotes(e.target.value)} required/>
+          <Input label="Search note (content)" name="search" type="text" placeholder="Take dog to bath" theme="dark" onChange={(e) => filterNotes(e.target.value)} required/>
         </Col>
       </Row>
       <Row style={{height: "70%", overflowY: "scroll", marginTop: "50px"}}>
