@@ -19,7 +19,7 @@ function AuthPage(props) {
     const authentication = getAuth();
     let email = e.target.email.value;
     let password = e.target.password.value;
-    console.log('about to call firebase');
+
     if(props.action === "register"){
       createUserWithEmailAndPassword(authentication, email, password)
       .then((response) => {

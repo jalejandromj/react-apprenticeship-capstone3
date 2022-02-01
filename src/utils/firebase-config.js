@@ -6,7 +6,7 @@ import { getDatabase } from "firebase/database";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAhSHbVGPXKoDCcxrp0lr9FGg85nu2fEYw",
+  apiKey: process.env.REACT_APP_FB_API_KEY,
   authDomain: "alejandromj-notes.firebaseapp.com",
   databaseURL: "https://alejandromj-notes-default-rtdb.firebaseio.com/",
   projectId: "alejandromj-notes",
