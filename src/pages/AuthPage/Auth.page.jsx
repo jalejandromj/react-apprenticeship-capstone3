@@ -19,7 +19,7 @@ function AuthPage(props) {
     const authentication = getAuth();
     let email = e.target.email.value;
     let password = e.target.password.value;
-
+    console.log('about to call firebase');
     if(props.action === "register"){
       createUserWithEmailAndPassword(authentication, email, password)
       .then((response) => {
@@ -85,7 +85,7 @@ function AuthPage(props) {
         <Row>
           <Col md={12} lg={12} centerX><h4 style={{color:"rgb(var(--discreet-white))", margin: 0}}>Please, enter your credentials: </h4></Col>
         </Row>
-        <form onSubmit={handleAuthSubmit}>
+        <form data-testid="auth-form" onSubmit={handleAuthSubmit}>
           <Row>
             <Col md={3} lg={3} xl={4}/>
             <Col md={6} lg={6} xl={4} centerX>
