@@ -23,7 +23,6 @@ function AuthPage(props) {
     if(props.action === "register"){
       createUserWithEmailAndPassword(authentication, email, password)
       .then((response) => {
-        console.log(response);
         sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
         sessionStorage.setItem('uid', response._tokenResponse.localId);
         navigate('/notes');
@@ -36,7 +35,6 @@ function AuthPage(props) {
     }else{
       signInWithEmailAndPassword(authentication, email, password)
       .then((response) => {
-        console.log(response);
         sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
         sessionStorage.setItem('uid', response._tokenResponse.localId);
         navigate('/notes');

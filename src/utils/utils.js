@@ -13,22 +13,4 @@ const firebaseErrorUserMssg = (error) => {
 	}
 }
 
-/*function handleAuthSubmit(e) {
-	e.preventDefault();
-	const authentication = getAuth();
-	let email = e.target.email.value;
-	let password = e.target.password.value;
-
-	createUserWithEmailAndPassword(authentication, email, password)
-	.then((response) => {
-		console.log(response);
-		sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
-	})
-	.catch(function (error) {
-		// handle error
-		console.log('[ERROR] On Firebase create user...', error);
-		return("error");
-	});
-}*/
-
 export { firebaseErrorUserMssg };

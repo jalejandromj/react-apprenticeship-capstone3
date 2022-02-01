@@ -4,7 +4,7 @@ import Input from "../../components/Input";
 import Row from "../../components/Row";
 import { NoteEditorContainer } from "./Notes.page.styles";
 
-function RenderNoteCreator({theme, action, actionFunction, index, note}) {
+function RenderNoteCreator({action, actionFunction, index, note, theme}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(action === "create")

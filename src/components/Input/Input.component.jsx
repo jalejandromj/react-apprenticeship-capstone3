@@ -7,13 +7,13 @@ function Input({label, name, type, required, noLabel, placeholder, theme, defaul
   return (
     <>
       {!noLabel && <label htmlFor={label.toLowerCase()} style={{color: "rgb(var(--indigo-blue))"}}>{label}</label>}
-      <InputElement name={name.toLowerCase()} 
-                    type={type} 
-                    required={required ? true : false} 
+      <InputElement defaultValue={defaultValue ? defaultValue : undefined}
+                    name={name.toLowerCase()}
+                    onChange={onChange}
                     placeholder={placeholder ? placeholder : null} 
+                    required={required ? true : false}
                     theme={theme} 
-                    defaultValue={defaultValue ? defaultValue : undefined}
-                    onChange={onChange}/>
+                    type={type} />
     </>
   );
 }
