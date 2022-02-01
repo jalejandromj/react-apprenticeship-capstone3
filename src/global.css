@@ -1,0 +1,61 @@
+html {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: rgba(0 0 0 0%);
+}
+
+:root {
+  --wine: 140 0 52;
+  --discreet-white: 255 245 247;
+  --dark-blue: 47 70 102;
+  --light-purple: 98 50 104;
+  --dark-purple: 68 63 109;
+  --indigo-blue: 18, 166, 154;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family:
+    source-code-pro,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Courier New",
+    monospace;
+}
+
+section {
+  height: 100%;
+  width: 100%;
+}
+
+figure {
+  margin: 0;
+}

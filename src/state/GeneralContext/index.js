@@ -1,0 +1,1 @@
+export { default, useGeneralContext } from './GeneralContext.jsx';
